@@ -3,7 +3,7 @@
  * editing is not recommeded on keyboardless touch devices.
  */
  
-Ext.define('PMDMeta.view.datacite.Subjects', {
+Ext.define('PMDMeta.view.ieda.DataTypes', {
     extend: 'PMDMeta.view.datacite.Grid',
     requires: [
         'Ext.selection.CellModel',
@@ -11,28 +11,37 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
         'Ext.data.*',
         'Ext.util.*',
         'Ext.form.*',
-        'PMDMeta.model.datacite.Subject',
-        'PMDMeta.store.datacite.Subject',
-        'PMDMeta.view.main.ComboBox',
-        'PMDMeta.store.datacite.combobox.SchemeCombo'
+        'PMDMeta.model.ieda.DataTypesModel',
+        'PMDMeta.store.ieda.DataTypes',
+        'PMDMeta.view.main.ComboBox'
     ],
-    xtype: 'DataCite-Subjects',
-    title: 'Keywords',
+    xtype: 'IEDA-DataTypes',
+    title: 'IEDA Data Types',
     frame: true,
     layout: 'fit',
-    modelname:  'PMDMeta.model.datacite.Subject',
-    delimiter: ",",
-
+    modelname: 'PMDMeta.model.ieda.DataTypesModel',
     initComponent: function() {
         this.cellEditing = new Ext.grid.plugin.CellEditing({
             clicksToEdit: 1
         });
-        Ext.create('PMDMeta.store.datacite.combobox.SchemeCombo');
+
         Ext.apply(this, {
             height: 200,
             plugins: [this.cellEditing],
-            store: 'DataCiteSubject',
+            store: 'DataTypes',
             columns: [
+        {
+        xtype: 'actioncolumn',
+        width: 30,
+        sortable: false,
+        menuDisabled: true,
+        items: [{
+            icon: 'resources/images/icons/fam/page_white_edit.png',
+            tooltip: 'Add via Thesaurus',
+            scope: this,
+            handler: this.onAddViaThesaurus
+        }]
+        },      
         {       
                 header: 'Keyword',
                 dataIndex: 'subject',
@@ -40,18 +49,19 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
                 sortable: false,        
                 menuDisabled: true,             
                 editor: {
-                    allowBlank: false
+                    allowBlank: false,
+                    editable: false
                 }   
             },{
                 header: 'Scheme',
                 dataIndex: 'subjectScheme',
                 width: 130,
                 sortable: false,        
-                menuDisabled: true,
-                editor: new PMDMeta.view.main.ComboBox({    
-                    store: 'SchemeCombo',
-                    editable: true
-                })             
+                menuDisabled: true,             
+                editor: {
+                    allowBlank: false,
+                    editable: false
+                }   
             },{
                 header: 'Scheme URI',
                 dataIndex: 'subjectSchemeURI',
@@ -59,7 +69,8 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
                 sortable: false,        
                 menuDisabled: true, 
                 editor: {
-                    allowBlank: true
+                    allowBlank: false,
+                    editable: false
                 }   
             },{
                 header: 'Language',
@@ -67,9 +78,10 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
                 width: 130,
                 sortable: false,        
                 menuDisabled: true,             
-                editor: new PMDMeta.view.main.ComboBox({    
-                    store: 'LanguageCombo'
-                })
+                editor: {
+                    allowBlank: false,
+                    editable: false
+                }
             },{
                 xtype: 'actioncolumn',
                 width: 30,
@@ -88,11 +100,18 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
         });
         this.callParent();
    },
-
+    onAddViaThesaurus:function (grid, rowIndex){
+        var me=this;
+        if (!me.thesaurus) {
+            me.thesaurus=Ext.create('PMDMeta.view.main.ThesaurusWindow', {
+                                    thesaurusList: me.thesaurusList});
+        }
+        me.thesaurus.setExchangeStore(me.getStore());
+        me.thesaurus.show();
+    },
     onRemoveClick: function(grid, rowIndex){
         var me=this;
-    me.getStore().removeAt(rowIndex);
-    me.newEntry();      
+        me.getStore().removeAt(rowIndex);
+        me.newEntry();      
     }
-
 });
