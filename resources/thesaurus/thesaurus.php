@@ -1,13 +1,9 @@
 <?php
-error_log("in thesaurus\n", 3, "/Users/Neville/software/pmdmeta/php_logfile.log");
-
 $thesauruses=array();
 
 foreach ($_REQUEST as $key => $value){
 	if (substr($key,0,strlen("thesaurus"))==="thesaurus"){
 		$thesauruses[$value]=$value;
-		error_log("$key\n", 3, "/Users/Neville/software/pmdmeta/php_logfile.log");
-		error_log("$value\n", 3, "/Users/Neville/software/pmdmeta/php_logfile.log");
 	}
 }
 //$thesauruses=array("gcmd");
