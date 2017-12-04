@@ -32,12 +32,15 @@ var items = [ {
                 ]
             },{
                 disabled: disabled,
-                xtype: 'DataCite-Rights',
-                title: 'Licenses and Rights'
-            },{
-                disabled: disabled,
                 xtype: 'DataCite-Authors',
                 title: 'Authors (Persons and/or Institutions)'
+            },{
+                disabled: disabled,
+                xtype: 'DataCite-Descriptions'
+            },{
+                disabled: disabled,
+                xtype: 'DataCite-Rights',
+                title: 'Licenses and Rights'
             },{
                 disabled: disabled,
                 xtype: 'isoviewDatasetContact',
@@ -46,9 +49,6 @@ var items = [ {
                 disabled: disabled,
                 xtype: 'DataCite-Contributors',
                 title: 'Contributors (Persons and/or Institutions)'
-            },{
-                disabled: disabled,
-                xtype: 'DataCite-Descriptions'
             },{
                 disabled: disabled,
                 xtype: 'DataCite-SubjectsGCMD',
