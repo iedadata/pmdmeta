@@ -26,6 +26,9 @@ Ext.define('PMDMeta.view.main.Main', {
     },
     layout:  'border',
     items: [
+        {   region: 'north',            
+            xtype: 'FileAndVersion-Form'
+        },
 		{
 			xtype: 'tabpanel',
 			region: 'center',
@@ -40,9 +43,6 @@ Ext.define('PMDMeta.view.main.Main', {
 
                 }
 			]
-		},
-		{	region: 'east',			
-			xtype: 'FileAndVersion-Form'
 		}
     ]
 });

@@ -37,9 +37,9 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
 			xtype: 'form',
 //			title: 'Files & Versions',
 //			width: 270,
-                        defaults:{margin: '0 0 10 0'},
-                        layout:{type: 'vbox'/*, align: 'stretch'*/},
-                        bodyPadding: 10,			
+                        defaults:{margin: '0 5 0 0'},
+                        layout:{type: 'hbox'/*, align: 'stretch'*/},
+                        bodyPadding: '0 0 5 0',			
                         items:[
                                 {
                                     xtype: 'PMD-FileUpload'
