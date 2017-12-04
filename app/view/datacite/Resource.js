@@ -14,7 +14,9 @@ Ext.define('PMDMeta.view.datacite.Resource', {
 	'PMDMeta.model.datacite.Resource',
 	'PMDMeta.store.datacite.Resource',
 	'PMDMeta.store.datacite.combobox.PublisherCombo',
-	'PMDMeta.view.main.ComboBox'
+	'PMDMeta.view.main.ComboBox',
+    'PMDMeta.store.datacite.combobox.ResourcetypeGeneralCombo',
+    'PMDMeta.store.datacite.combobox.LanguageCombo',
     ],
     xtype: 'DataCite-Resource',  
     initComponent: function() {
@@ -27,31 +29,34 @@ Ext.define('PMDMeta.view.datacite.Resource', {
             plugins: [this.cellEditing],
             store: 'DataCiteResource',
             columns: [
-	    {
-		
-                header: 'DOI (will be generated in the publishing process)',
-                dataIndex: 'identifier',
-                flex: 1,    
-		        sortable: false,	
-                menuDisabled: true,			    
-                editor: {
-                    disabled: true
-                },
-                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
-                    var qtip="The DOI is a unique string that identifies a resource.";
-                    metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
-                    return value;
-                }
-            }, {
+	           {
+                    //show DOI in title bar
+                    width:0,
+                    dataIndex: 'identifier',
+                    renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                        if (value)
+                            this.up().setTitle("DOI:"+  value + " Resource Information");
+                    }
+                }, {
                 header: 'Type',
                 dataIndex: 'identifiertype',
                 flex: 1,
-		hidden: true,
-		sortable: false,		
+		        hidden: true,
+		        sortable: false,		
                 menuDisabled: true,			    
                 editor: {
                     allowBlank: false
                 }
+            }, {
+                cls: 'PMDrequired',         
+                header: 'Resource Type',
+                dataIndex: 'resourceTypeGeneral',
+                sortable: false,        
+                menuDisabled: true,         
+                width: 180,
+                editor: new PMDMeta.view.main.ComboBox({
+                store: 'ResourcetypeGeneralCombo'
+                })
             },{
 		cls: 'PMDrequired',		    
                 header: 'Publisher',
@@ -74,7 +79,7 @@ Ext.define('PMDMeta.view.datacite.Resource', {
                 header: 'Year',
                 dataIndex: 'publicationYear',
                 width: 80,		
-		sortable: false,		
+		        sortable: false,		
                 menuDisabled: true,			    
                 editor: new Ext.form.field.Text({
                     vtype: 'DataCitePublicationYear'
@@ -87,6 +92,15 @@ Ext.define('PMDMeta.view.datacite.Resource', {
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
                     return value;
                 } 
+            },{
+                header: 'Language of content',
+                dataIndex: 'language',   
+                width: 170,
+                sortable: false,        
+                menuDisabled: true,           
+                editor: new PMDMeta.view.main.ComboBox({
+                    store: 'LanguageCombo'
+                })
             }],
             selModel: {
                 selType: 'cellmodel'
@@ -94,6 +108,7 @@ Ext.define('PMDMeta.view.datacite.Resource', {
         });
 
         this.callParent();
+       
 
         if (Ext.supports.Touch) {
             this.addDocked({

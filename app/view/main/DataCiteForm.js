@@ -22,12 +22,13 @@ var items = [ {
                 disabled: disabled,
                 items:[
                     {
+                        xtype: 'DataCite-ResourceOptAndTitle'   
+                    },
+                    {
                         xtype: 'DataCite-Resource'
                     },{
                         xtype: 'DataCite-ResourceOpt',
                         hidden:true
-                    },{
-                        xtype: 'DataCite-ResourceOptAndTitle'   
                     }
                 ]
             },{

@@ -646,8 +646,8 @@ Ext.define('PMDMeta.store.escidoc.Item', {
         if (dates.length>0)
             resource+='<dates>'+dates+'</dates>';
         
-        resource+=dcrsopt.asXML('language');
-        resource+=dcrsopt.asXML('resourceType');							
+        resource+=dcrs.asXML('language');
+        resource+=dcrs.asXML('resourceType');							
         resource+=Ext.getStore('DataCiteAlternateIdentifier').asXML();	
         resource+=Ext.getStore('DataCiteRelatedIdentifier').asXML();	
 //        resource+=Ext.getStore('DataCiteSize').asXML();
