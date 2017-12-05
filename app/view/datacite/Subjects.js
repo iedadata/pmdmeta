@@ -51,7 +51,14 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
                 editor: new PMDMeta.view.main.ComboBox({    
                     store: 'SchemeCombo',
                     editable: true
-                })             
+                }),
+                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                    if (value === "") {
+                        record.set('subjectScheme','Theme');
+                        return "Theme";
+                    }
+                    return value;
+                }            
             },{
                 header: 'Scheme URI',
                 dataIndex: 'subjectSchemeURI',
@@ -69,7 +76,14 @@ Ext.define('PMDMeta.view.datacite.Subjects', {
                 menuDisabled: true,             
                 editor: new PMDMeta.view.main.ComboBox({    
                     store: 'LanguageCombo'
-                })
+                }),
+                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                    if (value === "") {
+                         record.set('lang','en');
+                         return "en";
+                    }
+                    return value;
+                }       
             },{
                 xtype: 'actioncolumn',
                 width: 30,

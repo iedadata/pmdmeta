@@ -22,7 +22,7 @@ Ext.define('PMDMeta.model.datacite.RelatedIdentifier', {
 		if (this.get('relation').length>0)
 			relation=' relationType="'+this.get('relation')+'"';		
 		var result="";
-		if (type.length>0 || relation.length>0 || this.get('identifier').length>0)
+		if (relation.length>0 || (type.length>0 && this.get('identifier').length>0))
 			result='<relatedIdentifier'+type+relation+'>'+this.get('identifier').replace('&','&amp;').trim()+'</relatedIdentifier>';
 		return result;
 	}

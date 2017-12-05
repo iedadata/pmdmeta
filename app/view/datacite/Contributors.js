@@ -78,6 +78,10 @@ Ext.define('PMDMeta.view.datacite.Contributors', {
                    qtip+=" publications. You can select here the type of solution you are using for identification. After selection enter your author identifier";
                    qtip+=" to the right.";                    
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
+                    if (value === "") {
+                        record.set('nameIdentifierScheme','ORCID');
+                        return "ORCID";
+                    }
                     return value;
                 }
             },{

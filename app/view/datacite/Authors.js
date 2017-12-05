@@ -96,17 +96,21 @@ Ext.define('PMDMeta.view.datacite.Authors', {
                 header: 'Author ID Type',
                 dataIndex: 'nameIdentifierScheme',
                 width: 130,
-        sortable: false,    
+                sortable: false,    
                 menuDisabled: true,         
-        editor: new PMDMeta.view.main.ComboBox({
-            store: 'AuthorIDCombo'  
-        }),
+                editor: new PMDMeta.view.main.ComboBox({
+                    store: 'AuthorIDCombo'
+                }),
                 renderer: function(value, metaData, record, rowIdx, colIdx, store) {
                     var qtip="Due to varying spellings of author names it is difficult to find all works of a specific researcher in catalogue systems.";
                     qtip+=" Several solutions were developed to cope with this problem by assigning an unique identifier to authors and contributors of";
                    qtip+=" publications. You can select here the type of solution you are using for identification. After selection enter your author identifier";
                    qtip+=" to the right.";                    
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
+                    if (value === "") {
+                        record.set('nameIdentifierScheme','ORCID');
+                        return "ORCID";
+                    }
                     return value;
                 }
             },{

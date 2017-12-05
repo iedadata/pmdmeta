@@ -2,13 +2,17 @@ Ext.define('PMDMeta.model.ieda.DataTypesModel', {
 	extend: 'Ext.data.Model',
 	fields: [
         {name: 'subject',  type: 'string', mapping :function(data) {
-                return Ext.String.htmlDecode(data.firstChild.textContent);
+                if (data.firstChild)
+                 return Ext.String.htmlDecode(data.firstChild.textContent);
+                return "";
             }},
         {name: 'subjectScheme',   type: 'string', mapping: '@subjectScheme'},
         {name: 'subjectSchemeURI',   type: 'string', mapping: '@schemeURI'},
         {name: 'codeListValue', type: 'string', mapping:function(data){
             var codeListValue="Theme";
-            var subject=Ext.String.htmlDecode(data.firstChild.textContent);
+                        var subject="";
+            if (data.firstChild) subject = Ext.String.htmlDecode(data.firstChild.textContent);
+
             var envelope=data.parentNode.parentNode.parentNode;
             var iso=Ext.DomQuery.selectNode('gmd|MD_Metadata',envelope); 
             var id_info=Ext.DomQuery.selectNode('gmd|identificationInfo',iso); 

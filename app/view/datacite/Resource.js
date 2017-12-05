@@ -56,7 +56,14 @@ Ext.define('PMDMeta.view.datacite.Resource', {
                 width: 180,
                 editor: new PMDMeta.view.main.ComboBox({
                 store: 'ResourcetypeGeneralCombo'
-                })
+                }),
+                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                    if (value === "") {
+                        record.set('resourceTypeGeneral','Dataset');
+                        return 'Dataset';
+                    }
+                    return value;
+                }                  
             },{
 		cls: 'PMDrequired',		    
                 header: 'Publisher',
@@ -90,6 +97,12 @@ Ext.define('PMDMeta.view.datacite.Resource', {
                     qtip+=" is understood to mean making the data available on a specific date to the community of researchers. If there is no standard";
                     qtip+=" publication year value, use the date that would be preferred from a citation perspective. ";
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
+                    if (value === "") {
+                        var d = new Date();
+                        var year = d.getFullYear();
+                        record.set('publicationYear',year);
+                        return year;
+                    }
                     return value;
                 } 
             },{
@@ -100,7 +113,14 @@ Ext.define('PMDMeta.view.datacite.Resource', {
                 menuDisabled: true,           
                 editor: new PMDMeta.view.main.ComboBox({
                     store: 'LanguageCombo'
-                })
+                }),
+                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                    if (value === "") {
+                        record.set('lang','en');
+                        return 'en';
+                    }
+                    return value;
+                }       
             }],
             selModel: {
                 selType: 'cellmodel'
