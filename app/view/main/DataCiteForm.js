@@ -37,15 +37,15 @@ var items = [ {
                 title: 'Authors (Persons and/or Institutions)'
             },{
                 disabled: disabled,
+                xtype: 'isoviewDatasetContact',
+                title: 'Contact Person(s) / Point of Contact'
+            },{
+                disabled: disabled,
                 xtype: 'DataCite-Descriptions'
             },{
                 disabled: disabled,
                 xtype: 'DataCite-Rights',
                 title: 'Licenses and Rights'
-            },{
-                disabled: disabled,
-                xtype: 'isoviewDatasetContact',
-                title: 'Contact Person(s) / Point of Contact'
             },{
                 disabled: disabled,
                 xtype: 'DataCite-Contributors',
