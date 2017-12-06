@@ -13,8 +13,6 @@ Ext.define('PMDMeta.view.datacite.ResourceOptAndTitle', {
         'Ext.form.*',
 	'PMDMeta.model.datacite.ResourceOptAndTitle',
 	'PMDMeta.store.datacite.ResourceOptAndTitle',
-	'PMDMeta.store.datacite.combobox.ResourcetypeGeneralCombo',
-	'PMDMeta.store.datacite.combobox.LanguageCombo',
 	'PMDMeta.store.datacite.combobox.TitletypeCombo',        
 	'PMDMeta.view.main.ComboBox'	
     ],
@@ -31,21 +29,11 @@ Ext.define('PMDMeta.view.datacite.ResourceOptAndTitle', {
             plugins: [this.cellEditing],
             store: 'DataCiteResourceOptAndTitle',
             columns: [
-		{
-		cls: 'PMDrequired',			
-                header: 'Resource Type',
-                dataIndex: 'resourceTypeGeneral',
-		sortable: false,		
-                menuDisabled: true,			
-                width: 180,
-                editor: new PMDMeta.view.main.ComboBox({
-		    store: 'ResourcetypeGeneralCombo'
-		})
-            },{
+{
 		cls: 'PMDrequired',                
                 header: 'Title',
                 dataIndex: 'title',
-		sortable: false,		
+		        sortable: false,		
                 menuDisabled: true,		    
                 flex: 2,
                 editor: {
@@ -64,9 +52,9 @@ Ext.define('PMDMeta.view.datacite.ResourceOptAndTitle', {
             },{
                 header: 'Version',
                 dataIndex: 'version',
-		sortable: false,		
+		        sortable: false,		
                 menuDisabled: true,			    
-                width: 80,
+                width: 70,
                 editor: {
                     allowBlank: true
                 },
@@ -76,15 +64,6 @@ Ext.define('PMDMeta.view.datacite.ResourceOptAndTitle', {
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
                     return value;
                 }		    
-            },{
-                header: 'Language of dataset',
-                dataIndex: 'language',   
-                width: 170,
-		sortable: false,		
-                menuDisabled: true,			    
-                editor: new PMDMeta.view.main.ComboBox({
-                    store: 'LanguageCombo'
-		})
             }],
             selModel: {
                 selType: 'cellmodel'

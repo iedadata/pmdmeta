@@ -11,16 +11,16 @@ var dataset = urlparameter.dataset;
 var editor_metafile = urlparameter.editor_metafile;
 var curator = urlparameter.curator;
 var xml_file = urlparameter.object;
+var extra = urlparameter.extra;
 var submitText = curator == "False" ? "Submit" : "Send to Submitter";
+
 
 Ext.define('PMDMeta.view.main.FileAndVersionForm', {
     extend: 'Ext.container.Container',
     requires: [
 	'PMDMeta.view.fileupload.FileUpload',
 	'PMDMeta.view.main.ItemVersions',
-        'PMDMeta.view.main.FileDownloader',
-        'Ext.window.MessageBox',
-        'PMDMeta.view.main.DOIregistration',
+    'Ext.window.MessageBox',
 	'PMDMeta.store.publish.ValidationResult',
 	'PMDMeta.view.main.ValidationWindow'
     ],
@@ -37,9 +37,9 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
 			xtype: 'form',
 //			title: 'Files & Versions',
 //			width: 270,
-                        defaults:{margin: '0 0 10 0'},
-                        layout:{type: 'vbox'/*, align: 'stretch'*/},
-                        bodyPadding: 10,			
+                        defaults:{margin: '0 5 0 0'},
+                        layout:{type: 'hbox'/*, align: 'stretch'*/},
+                        bodyPadding: '0 0 5 0',			
                         items:[
                                 {
                                     xtype: 'PMD-FileUpload'
@@ -47,47 +47,6 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
                                 },{
                                     xtype: 'ItemVersions'
                                     ,hidden:true
-                                },{
-                                    xtype: 'button',
-                                    scale: 'large',                                                
-                                    text: 'DOI',
-				    id:   'doibutton',
-//hidden:true,
-                                    tooltip: 'register a DOI or update metadata',
-                                    handler: function() {
-                                        if (!me.doiregistration)
-                                            me.doiregistration=new PMDMeta.view.main.DOIregistration();
-                                        me.doiregistration.setup();
-                                        me.doiregistration.show();
-                                    }
-                                },{
-                                    xtype: 'button',
-                                    scale: 'large',
-				    id:   'previewbutton',
-//hidden: true,
-                                    text: 'Preview',
-                                    tooltip: 'preview Dataset in new Window',
-                                    handler: function() {
-                                        
-                                        var item=Ext.getStore('Item').getAt(0);
-                                        if (!item) return;
-                                        var itemhref=item.get("href");
-                                        if (!itemhref) return;
-                                        var itemid=itemhref.substr(itemhref.lastIndexOf("/")+1,itemhref.length-1);
-                                        if (!itemid) return;
-                                        
-                                        var href=window.location.href;
-                                        var url;
-                                        if (href.indexOf("?")>0)
-                                            url=href.substr(0,href.indexOf("?"));
-                                        else
-                                            url=href;                                        
-                                        var root=url.substr(0,url.lastIndexOf("/"));
-                                        if (root.length===url.length-1) //trailing slash
-                                            root=root.substr(0,root.lastIndexOf("/"))
-
-                                        window.open(root+"/preview.php?id="+itemid,"_blank");
-                                    }
                                 },{
                                     xtype: 'button',
                                     scale: 'large',                                                
@@ -109,6 +68,7 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
                                          scale: 'large'
                                     },                                           
                                     buttonText: 'Load',
+                                    id:   'loadbutton',
 
                                     listeners:{
                                         change: function( elem, value, eOpts ) {
@@ -238,16 +198,6 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
                                 },{
                                     xtype: 'button',
                                     scale: 'large',                                                
-                                    text: 'Sync',
-				                    id:   'syncbutton',
-                                    //hidden: true,
-                                    tooltip: 'Sync data to eSciDoc repository',
-                                    handler: function() {	  
-                                            Ext.getStore('Item').synccontent();
-                                    }
-                                },{
-                                    xtype: 'button',
-                                    scale: 'large',                                                
                                     text: submitText,
                                     tooltip: 'Submit the metadata form',
                                     disabled: disabled,
@@ -298,7 +248,7 @@ Ext.define('PMDMeta.view.main.FileAndVersionForm', {
                                                         buttons: Ext.Msg.OK,
                                                         fn: function(btn, text){
                                                         if (btn === 'ok'){                                        
-                                                            window.location.href='?object='+xml_file+'&editable=False'+'&editor_metafile='+editor_metafile+'&dataset='+dataset+'&curator='+curator;                                  
+                                                            window.location.href='?object='+xml_file+'&editable=False'+'&editor_metafile='+editor_metafile+'&dataset='+dataset+'&curator='+curator+'extra'+extra;                                  
                                                         }
                                                     }
                                                     }); 

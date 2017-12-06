@@ -3,7 +3,7 @@
  * editing is not recommeded on keyboardless touch devices.
  */
  
- Ext.define('PMDMeta.view.datacite.SubjectsGCMD', {
+Ext.define('PMDMeta.view.ieda.DataTypes', {
     extend: 'PMDMeta.view.datacite.Grid',
     requires: [
         'Ext.selection.CellModel',
@@ -11,18 +11,16 @@
         'Ext.data.*',
         'Ext.util.*',
         'Ext.form.*',
-        'PMDMeta.model.datacite.ThesaurusSubject',
-        'PMDMeta.store.datacite.SubjectGCMD',
-        'PMDMeta.view.main.ComboBox',
-        'PMDMeta.view.main.ThesaurusWindow'
+        'PMDMeta.model.ieda.DataTypesModel',
+        'PMDMeta.store.ieda.DataTypes',
+        'PMDMeta.view.main.ComboBox'
     ],
-    xtype: 'DataCite-SubjectsGCMD',
-    title: 'NASA GCMD Science Keywords',
+    xtype: 'IEDA-DataTypes',
+    title: 'IEDA Data Types',
     frame: true,
     layout: 'fit',
-    modelname: 'PMDMeta.model.datacite.ThesaurusSubject',
+    modelname: 'PMDMeta.model.ieda.DataTypesModel',
     initComponent: function() {
-
         this.cellEditing = new Ext.grid.plugin.CellEditing({
             clicksToEdit: 1
         });
@@ -30,21 +28,21 @@
         Ext.apply(this, {
             height: 200,
             plugins: [this.cellEditing],
-            store: 'DataCiteSubjectGCMD',
+            store: 'DataTypes',
             columns: [
-            {
-                xtype: 'actioncolumn',
-                width: 30,
-                sortable: false,
-                menuDisabled: true,
-                items: [{
-                    icon: 'resources/images/icons/fam/page_white_edit.png',
-                    tooltip: 'Add via Thesaurus',
-                    scope: this,
-                    handler: this.onAddViaThesaurus
-                }]
-            },      
-            {       
+        {
+        xtype: 'actioncolumn',
+        width: 30,
+        sortable: false,
+        menuDisabled: true,
+        items: [{
+            icon: 'resources/images/icons/fam/page_white_edit.png',
+            tooltip: 'Add via Thesaurus',
+            scope: this,
+            handler: this.onAddViaThesaurus
+        }]
+        },      
+        {       
                 header: 'Keyword',
                 dataIndex: 'subject',
                 flex: 1,
@@ -101,22 +99,14 @@
             }
         });
         this.callParent();
-    },
+   },
     onAddViaThesaurus:function (grid, rowIndex){
         var me=this;
-        var result = null;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", 'resources/thesaurus/thesaurus_list.txt', false);
-        xmlhttp.send();
-        if (xmlhttp.status==200) {
-          result = xmlhttp.responseText;
-        }
-        var list = result.split('\n');
-        if (!me.thesaurus)
+        if (!me.thesaurus) {
             me.thesaurus=Ext.create('PMDMeta.view.main.ThesaurusWindow', {
-                thesaurusList: list});
+                                    thesaurusList: me.thesaurusList});
+        }
         me.thesaurus.setExchangeStore(me.getStore());
-        console.log(me.getStore());
         me.thesaurus.show();
     },
     onRemoveClick: function(grid, rowIndex){
@@ -124,5 +114,4 @@
         me.getStore().removeAt(rowIndex);
         me.newEntry();      
     }
-
 });

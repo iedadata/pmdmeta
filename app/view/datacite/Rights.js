@@ -49,7 +49,7 @@ Ext.define('PMDMeta.view.datacite.Rights', {
             store: 'DataCiteRight',
             columns: [
 		{		
-                header: 'Licence',
+                header: 'License',
                 flex: 1,		    
                 dataIndex: 'right',	
 		sortable: false,		
@@ -63,6 +63,12 @@ Ext.define('PMDMeta.view.datacite.Rights', {
                     var qtip="Provide a rights management statement for the resource or reference a service providing such information. ";
                     qtip+=" Include embargo information if applicable. Use the complete title of a license and include version information if applicable. ";
                     metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
+                    if (value === "") {
+                         record.set('right','CC BY-SA 3.0');
+                         record.set('uri', 'http://creativecommons.org/licenses/by-sa/3.0/');
+                         return 'CC BY-SA 3.0';
+                    }
+
                     return value;
                 } 
             },{ 

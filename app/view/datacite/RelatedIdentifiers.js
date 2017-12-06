@@ -50,23 +50,30 @@ Ext.define('PMDMeta.view.datacite.RelatedIdentifiers', {
                 dataIndex: 'relation',
                 width: 210,
                 editor: new PMDMeta.view.main.ComboBox({	
-			store: 'RelationtypeCombo',
+			    store: 'RelationtypeCombo',
                         listConfig: {
                             itemTpl: [
                                 '<div data-qtip="{name}: {qtip}">{group}:{name}</div>'
                             ]
                         }			
-		})
+		        }),
               },		
 		{
                 header: 'Type',
                 dataIndex: 'identifierType',
-		sortable: false,		
-		menuDisabled: true,				
+		        sortable: false,		
+		        menuDisabled: true,				
                 width: 130,
                 editor: new PMDMeta.view.main.ComboBox({
-		    store: 'IdentifiertypeCombo'
-            })
+		        store: 'IdentifiertypeCombo'
+                }),
+                renderer: function(value, metaData, record, rowIdx, colIdx, store) {
+                    if (value === "") {
+                        record.set('identifierType','DOI');
+                        return 'DOI';
+                    }
+                    return value;
+                } 
                 
             },{
                 header: 'Identifier',

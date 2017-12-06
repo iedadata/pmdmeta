@@ -7,5 +7,6 @@ Ext.define('PMDMeta.store.datacite.combobox.AuthorIDCombo', {
         {abbr:'Researcher.id',name:'Researcher.id',uri:'http://www.researcherid.com',qtip:'an ID for authors maintained by Thomson Reuters\' Web of Science. See http://www.researcherid.com.'},
         {abbr:'ScopusID',name:'Scopus',uri:'http://www.scopus.com',qtip:'an ID for authors maintained Elsevier\'s Scopus. See http://www.scopus.com.'},
         {abbr:'INSI',name:'INSI',uri:'http://www.insi.org',qtip:'an ID for institutions. See http://www.insi.org.'}
-]});			
+	]
+	});			
 

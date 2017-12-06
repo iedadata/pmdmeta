@@ -1,12 +1,10 @@
 <?php
-
-
 $thesauruses=array();
 
 foreach ($_REQUEST as $key => $value){
-
-	if (substr($key,0,strlen("thesaurus"))==="thesaurus")
+	if (substr($key,0,strlen("thesaurus"))==="thesaurus"){
 		$thesauruses[$value]=$value;
+	}
 }
 //$thesauruses=array("gcmd");
 
@@ -15,15 +13,17 @@ foreach ($thesauruses as $thesaurus){
 
 	$thesaurusuri="";
 	$thesaurusname="";
+	$codelistvalue="Theme";
 
 	if (strlen($thesaurus)==0)
 		continue;
 
 	$def=readfromfile($thesaurus,"_labels.csv");
-
 	foreach (readfromfile($thesaurus,"_index.csv") as $uri =>$name){
 		$thesaurusuri=$uri;
 		$thesaurusname=array_shift($name);
+		if (count($name) > 0) 
+			$codelistvalue=array_shift($name);
 	}
 	$rel=readfromfile($thesaurus,"_relations.csv");
 	$key=readfromfile($thesaurus,"_keywords.csv");
@@ -33,21 +33,21 @@ foreach ($thesauruses as $thesaurus){
 //var_dump($elements);return;
 
 $ret['success']='true';
-	foreach (walktree($rel,$def,$key,$thesaurusuri,$thesaurusname,$elements) as $child)
+	foreach (walktree($rel,$def,$key,$thesaurusuri,$thesaurusname,$codelistvalue,$elements) as $child)
 		$ret['children'][]=$child;
 }
 
 
 echo json_encode($ret);
 
-function walktree ($relations, $definitions, $keys, $thesaurusuri, $thesaurusname, $items,$searchkey=""){
+function walktree ($relations, $definitions, $keys, $thesaurusuri, $thesaurusname, $codelistvalue, $items,$searchkey=""){
 	$ret=array();
 	foreach ($items as $element){	
 		$obj=array();
 		$obj['id']=$element;
 		$obj["name"]=$definitions[$element][0];
 		$obj["qtip"]=$definitions[$element][1];
-	
+
 //		$obj["qtip"]=preg_replace("/[\n\r]/","<br>",$obj["qtip"]);
 
                 if ($element=='1eb0ea0a-312c-4d74-8d42-6f1ad758f999')//expand science keywords
@@ -57,12 +57,13 @@ function walktree ($relations, $definitions, $keys, $thesaurusuri, $thesaurusnam
 
 		$obj["thesaurusuri"]= $thesaurusuri;
 		$obj["thesaurusname"]= $thesaurusname;
+		$obj["codelistvalue"]= $codelistvalue;
 
 		if (count($relations[$element])==0){
 			$obj['leaf']='true';
 		}else{
 			$obj['leaf']='false';
-			$obj['children']=walktree($relations, $definitions, $keys, $thesaurusuri, $thesaurusname, $relations[$element]);
+			$obj['children']=walktree($relations, $definitions, $keys, $thesaurusuri, $thesaurusname, $codelistvalue, $relations[$element]);
 		}
 		array_push($ret,$obj);
 	}
