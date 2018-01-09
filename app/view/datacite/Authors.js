@@ -77,8 +77,8 @@ Ext.define('PMDMeta.view.datacite.Authors', {
                 getEditor: function(record, defaultfield){
                     var value=record.get('role');
                     var editor=new PMDMeta.view.main.CheckComboBox(
-                            {store: 'AuthortypeCombo',multiSelect: false}
-                        );
+                                {store: 'AuthortypeCombo',multiSelect: false}
+                            );
                     return editor;
                 },
                 renderer: function(value, metaData, record, rowIdx, colIdx, store) {
@@ -89,6 +89,23 @@ Ext.define('PMDMeta.view.datacite.Authors', {
                         else 
                             qtip="An additional role <b>"+record.get('position')+"</b> has been set.";
                         metaData.tdAttr = 'data-qtip="' + Ext.String.htmlEncode(qtip) + '"';
+                    }
+                    var firstAuthorFound = false;
+                    for (var rec in store.data.items) {
+                        if (store.data.items[rec].data.role === "First Author") {
+                            firstAuthorFound = true;
+                            break;
+                        }
+                    }
+                    if (value === "") {
+                        if (!firstAuthorFound) {
+                            record.set('role','First Author');
+                            return "First Author";
+                        } else {
+                            record.set('role','Co-Author');
+                            return "Co-Author";
+                        }
+
                     }
                     return value;
                 }                
